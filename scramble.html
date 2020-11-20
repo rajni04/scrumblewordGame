@@ -1,0 +1,184 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guess the word game</title>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Stencil+Display:wght@500&display=swap" rel="stylesheet">
+    <style>
+        *{margin:0;padding: 0; box-sizing:border-box;}
+        header{
+            width:100%;
+            line-height:15vh;
+            background-color:rgb(255, 60, 0);
+        }
+        h1{
+            
+            text-align:center;
+            color:white;
+            font-size:1.8rem;
+            
+            text-transform: uppercase;;
+            letter-spacing:15px;
+            text-shadow:0 1px 0 #470909,
+            0 1px 0 #efefef,
+            0 2px 0 #efefef,
+            0 3px 0 #efefef,
+            0 4px 0 #efefef,
+            0 30px 5px rgba(0,0,0,.1);
+
+        }
+
+        section{
+            height:85vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: blueviolet;
+            align-items: center;
+        }
+        .gameArea{
+            width: 50%;
+            height: 400px;
+            padding: 20px 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            background-color: rgb(159, 255, 80);
+            align-items: center;
+            font-family: 'Big Shoulders Stencil Display', cursive;
+            box-shadow: 0 10px 10px -6px black;
+        }
+
+        h3{
+            text-align: center;
+            font-size: 1.5rem;
+            color: black;
+
+
+        }
+
+        input{
+
+            width: 40%;
+            padding: 15px 0;
+            text-align: center;
+            border-radius: 25px;
+            outline: none;
+            border:none;
+            background-color: rgb(66, 247, 247);
+            color: darkgoldenrod;
+            margin: 3rem 3rem;
+            font-size: 1.1rem;
+        }
+
+        button{
+            font-size: 1rem;
+            cursor:pointer;
+            outline:none;
+            border: darkgreen;
+            margin-top: 10px;
+            color: rgb(111, 0, 255);
+
+        }
+        button.btn{
+
+            font-weight: 600;
+            padding: 1rem 2rem;
+            background: white;
+            text-transform: uppercase;
+            transition-property:all ;
+            transition-duration: 0.5s;
+            transition-timing-function: cubic-bezier(0.65, -0.25, 0.25, 1.95);
+        }
+        button.btn:hover, button.btn:focus,button.btn:active{
+            letter-spacing: 0.125rem;
+            word-spacing: 0.2rem;
+        }
+        .hidden{
+            display:none;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Guess the word game</h1>
+    </header>
+    <section>
+        <div class="gameArea">
+            <h3 class="msg"></h3>
+            <input type="text" class="hidden">
+            <button class="btn">Click here to start</button>
+        </div>
+    </section>
+
+
+
+<script>
+
+const msg=document.querySelector('.msg');
+const guess = document.querySelector('input');
+const btn =document.querySelector('.btn');
+let newWords="";
+let randWords="";
+let play=false;
+let  sWords=['dog','cat','apple','mango','owl'];
+const createNewWords = () =>{
+
+
+    let ranNum=Math.floor(Math.random()*sWords.length);
+    //console.log(ranNum)
+    let newTempSwords=sWords[ranNum];
+    console.log(newTempSwords)
+    return newTempSwords;
+}
+
+const scrambleWords= (arr) =>{
+    for (let i= arr.length-1;i>0;i--){
+    let temp = arr[i];
+    let j= Math.floor(Math.random()*(i+1));
+   // console.log(i)
+   // console.log(j)
+    arr[i]=arr[j];
+    arr[j]=temp;
+
+
+
+}
+return arr;
+}
+btn.addEventListener('click', function(){
+
+    if(!play){
+        play=true;
+        
+        btn.innerHTML="Guess";
+
+        guess.classList.toggle('hidden');
+        newWords=createNewWords();
+        randWords=scrambleWords(newWords.split("")).join("");
+       // console.log(ranWords.join(""));
+        msg.innerHTML=`GUESS THE WORD-->${randWords}`;
+    }else{
+        let tempWord=guess.value;
+        if(tempWord==newWords){
+           // console.log('correct');
+           play=false
+           msg.innerHTML=`its correct ${newWords}`
+           btn.innerHTML="start again";
+           guess.classList.toggle('hidden');
+           guess.value="";
+        }else{
+           // console.log('incorrect ${newWords}`)
+           msg.innerHTML=`Incorrect!! TRY AGAIN ${randWords}`
+        }
+    }
+    
+        
+
+})  
+</script>
+</body>
+</html>
